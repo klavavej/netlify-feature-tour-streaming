@@ -26,7 +26,7 @@ export const handler = stream(async (event) => {
       ],
       // Use server-sent events to stream the response
       stream: true,
-    }),
+    }, ["content"]),
   });
 
   return {
