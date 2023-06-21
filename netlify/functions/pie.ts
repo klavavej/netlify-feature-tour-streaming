@@ -36,6 +36,6 @@ export const handler = stream(async (event) => {
     },
     statusCode: 200,
     // Pipe the event stream from OpenAI to the client
-    body: res.body,
+    body: res.content,
   };
 });
