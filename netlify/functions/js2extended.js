@@ -2,11 +2,11 @@ const { stream } = require("@netlify/functions");
 
 exports.handler = stream(async (event) => ({
   // Get the request from the request query string, or use a default
-  pie:
+  const pie =
     event.queryStringParameters?.pie ??
     "something inspired by a springtime garden",
 
-  res: await fetch("https://api.openai.com/v1/chat/completions", {
+  const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
