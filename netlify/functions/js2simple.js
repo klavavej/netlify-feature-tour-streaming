@@ -1,17 +1,17 @@
 const { stream } = require("@netlify/functions");
 
-exports.handler = stream(async () => ({
-  const encoder = new TextEncoder(),
-  const formatter = new Intl.DateTimeFormat("en", { timeStyle: "medium" }),
+exports.handler = stream(async () => {
+  const encoder = new TextEncoder();
+  const formatter = new Intl.DateTimeFormat("en", { timeStyle: "medium" });
   const body = new ReadableStream({
     start(controller) {
       controller.enqueue(encoder.encode("<html><body><ol>"));
       let i = 0;
-      timer: setInterval(() => {
+      const timer = setInterval(() => {
         controller.enqueue(
           encoder.encode(
-            `<li>Hello at ${formatter.format(new Date())}</li>\n\n`,
-          ),
+            `<li>Hello at ${formatter.format(new Date())}</li>\n\n`
+          )
         );
         if (i++ >= 5) {
           controller.enqueue(encoder.encode("</ol></body></html>"));
@@ -20,10 +20,12 @@ exports.handler = stream(async () => ({
         }
       }, 1000);
     },
-  }),
-  headers: {
-    "content-type": "text/html",
-  },
-  statusCode: 200,
-  body,
-}));
+  });
+  return {
+    headers: {
+      "content-type": "text/html",
+    },
+    statusCode: 200,
+    body,
+  };
+});
