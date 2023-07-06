@@ -1,10 +1,10 @@
 const { stream } = require("@netlify/functions");
 
-exports.handler = stream(async (event) => ({
+exports.handler = stream(async (event) => {
   // Get the request from the request query string, or use a default
   const pie =
     event.queryStringParameters?.pie ??
-    "something inspired by a springtime garden",
+    "something inspired by a springtime garden";
 
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
@@ -27,12 +27,15 @@ exports.handler = stream(async (event) => ({
       // Use server-sent events to stream the response
       stream: true,
     }),
-  }),
-  headers: {
-    // This is the mimetype for server-sent events
-    "content-type": "text/event-stream",
-  },
-  statusCode: 200,
-  // Pipe the event stream from OpenAI to the client
-  body: res.body,
-}));
+  });
+
+  return {
+    headers: {
+      // This is the mimetype for server-sent events
+      "content-type": "text/event-stream",
+    },
+    statusCode: 200,
+    // Pipe the event stream from OpenAI to the client
+    body: res.body,
+  };
+});
