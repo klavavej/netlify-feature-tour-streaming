@@ -1,9 +1,9 @@
 const { stream } = require("@netlify/functions");
 
 exports.handler = stream(async () => ({
-  encoder: new TextEncoder(),
-  formatter: new Intl.DateTimeFormat("en", { timeStyle: "medium" }),
-  body: new ReadableStream({
+  const encoder = new TextEncoder(),
+  const formatter = new Intl.DateTimeFormat("en", { timeStyle: "medium" }),
+  const body = new ReadableStream({
     start(controller) {
       controller.enqueue(encoder.encode("<html><body><ol>"));
       let i = 0;
